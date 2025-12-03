@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animation */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeSlide {
+  animation: fadeSlide 0.6s ease-out;
+}
+
+/* Green soft input */
+.input-full {
+  @apply w-full px-4 py-3 rounded-full bg-green-100/50 border border-green-200
+         outline-none focus:border-green-400 focus:ring-2 focus:ring-green-200 transition;
+}
+
+
+
+
+
+
+
+/* Smooth Transitions for Everything */
+* {
+  transition: 0.25s ease-in-out;
+}
+
+/* Soft Glass Card */
+.card {
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(18px) saturate(180%);
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Dark Mode Card */
+.dark .card {
+  background: rgba(30,30,30,0.55);
+  backdrop-filter: blur(20px) saturate(200%);
+}
+
+/* Hover Lift + Glow */
+.card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+}
+
+/* Slide Right Hover for Sidebar */
+.sidebar-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.sidebar-item:hover {
+  margin-left: 6px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+}
+
+/* Beautiful Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  box-shadow: 0 10px 20px rgba(59,130,246,0.25);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+/* Page Fade In Animation */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
