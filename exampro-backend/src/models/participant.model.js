@@ -1,48 +1,19 @@
 // src/models/participant.model.js
-import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
-
 export default (sequelize, DataTypes) => {
   const Participant = sequelize.define("Participant", {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    mobile: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    organizationId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    role: {
-      type: DataTypes.ENUM("Participant"),
-      defaultValue: "Participant",
-    },
-    status: {
-      type: DataTypes.ENUM("Pending", "Approved", "Inactive"),
-      defaultValue: "Approved",
-    },
-    dateOfJoin: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    name: DataTypes.STRING,
+    email: { type: DataTypes.STRING, unique: true },
+    mobile: DataTypes.STRING,
+    password: DataTypes.STRING,
+    organizationId: DataTypes.INTEGER,
+    groupId: DataTypes.INTEGER,
+    role: { type: DataTypes.ENUM("Participant"), defaultValue: "Participant" },
+    status: { type: DataTypes.ENUM("Active", "Inactive"), defaultValue: "Active" },
+    dateOfJoin: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+    loginTime: DataTypes.DATE,
+    logoutTime: DataTypes.DATE,
+    spendTime: DataTypes.INTEGER,
   });
-
   return Participant;
 };

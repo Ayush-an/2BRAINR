@@ -1,40 +1,13 @@
+// src/routes/participant.routes.js
 import express from "express";
-import { registerParticipant, getProfile, getUpcomingExams } from "../controllers/participant.controller.js";
-
+import { registerParticipant, getProfile ,getParticipantsOfOrg,participantLogout,participantLogin} from "../controllers/participant.controller.js";
 import { verifyToken, authorizeRoles } from "../middlewares/auth.middleware.js";
-
 const router = express.Router();
 
-/**
- * 🧾 Register new participant
- * Accessible by SuperUser or Admin
- */
-router.post(
-  "/register",
-  verifyToken,
-  authorizeRoles("SuperUser", "Admin"),
-  registerParticipant
-);
-
-/**
- * 👤 Get logged-in participant’s profile
- */
-router.get(
-  "/profile",
-  verifyToken,
-  authorizeRoles("Participant"),
-  getProfile
-);
-
-/**
- * 📅 Get upcoming exams (optional)
- * If you added getUpcomingExams() in the controller, keep this route.
- */
-router.get(
-  "/upcoming-exams",
-  verifyToken,
-  authorizeRoles("Participant"),
-  getUpcomingExams
-);
+router.get("/profile",verifyToken,authorizeRoles("Participant"),getProfile);
+router.post("/register", verifyToken, authorizeRoles("SuperUser", "Admin"), registerParticipant);
+router.get("/", verifyToken, authorizeRoles("SuperUser", "Admin"), getParticipantsOfOrg);
+router.post("/login", participantLogin);
+router.post("/logout", verifyToken, authorizeRoles("Participant"), participantLogout);
 
 export default router;

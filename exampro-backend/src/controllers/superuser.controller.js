@@ -21,14 +21,15 @@ export const uploadParticipantsController = async (req, res, next) => {
 
       const hashedPassword = await bcrypt.hash(record.password, 10);
 
-      const participant = await Participant.create({
-        name: record.name,
-        email: record.email,
-        mobile: record.mobile || null,
-        password: hashedPassword,
-        role: "Participant",
-        status: "Approved",
-      });
+      const participant = await User.create({
+  full_name: record.name,
+  email: record.email,
+  password: hashed,
+  mobile: record.mobile,
+  role: "PARTICIPANT",
+  organization_id: req.user.organization_id,
+});
+        
 
       createdParticipants.push(participant);
     }
@@ -83,3 +84,25 @@ export const getAllParticipants = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const getAllSuperUsers = async (req, res) => {
+  const superUsers = await SuperUser.findAll({
+    include: [
+      {
+        model: Admin,
+        include: [Organization]  // allows getting organizationId
+      }
+    ]
+  });
+
+  res.json(
+    superUsers.map(s => ({
+      id: s.id,
+      name: s.name,
+      email: s.email,
+      adminId: s.adminId,
+      organizationId: s.Admin?.organizationId || null
+    }))
+  );
+};
+

@@ -14,11 +14,9 @@ import getUser from "../utils/getUser";
 
 export default function Navbar() {
   const user = getUser();
+  const photo = localStorage.getItem("userPhoto") || user?.photo;
 
-  // State for Email Dialog
   const [emailOpen, setEmailOpen] = useState(false);
-
-  // State for Notification Drawer
   const [notifOpen, setNotifOpen] = useState(false);
 
   return (
@@ -73,7 +71,7 @@ export default function Navbar() {
           {/* Profile */}
           <div className="flex items-center gap-2 cursor-pointer">
             <img
-              src="https://i.pravatar.cc/40"
+              src={photo || "https://i.pravatar.cc/40"}
               className="object-cover w-10 h-10 rounded-full"
               alt="profile"
             />

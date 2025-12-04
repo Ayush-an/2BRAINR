@@ -56,27 +56,40 @@ export const createAdmin = async (req, res, next) => {
 };
 
 /* -------------------------------------------
-   ✅ Create SuperUser (under an Admin)
+   ✅ Create SuperUser (under logged-in Admin)
 -------------------------------------------- */
 export const createSuperUser = async (req, res, next) => {
   try {
-    const { name, email, password, adminId } = req.body;
+    const { name, email, password } = req.body;
+
+    // Get admin info from token (req.user)
+    const adminId = req.user.id;
+    const organizationId = req.user.organizationId;
+
+    // Verify admin exists
+    const admin = await Admin.findByPk(adminId);
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    // Hash password
     const hashed = await bcrypt.hash(password, 10);
 
+    // Create superuser
     const superUser = await SuperUser.create({
       name,
       email,
       password: hashed,
       role: "SuperUser",
       adminId,
+      organizationId,
       dateOfJoin: new Date(),
     });
 
-    res.status(201).json({ message: "SuperUser created successfully", superUser });
+    res.status(201).json({ message: "SuperUser created", superUser });
   } catch (err) {
     next(err);
   }
 };
+
 
 /* -------------------------------------------
    ✅ Create Group (Admin-level)
@@ -183,6 +196,7 @@ export const getAllAdmins = async (req, res, next) => {
         id: a.id,
         name: a.name,
         email: a.email,
+        organizationId: a.organizationId,
         organizationName: a.Organization?.name || null
       }))
     );

@@ -1,14 +1,26 @@
-// src/routes/organization.routes.js
 import express from "express";
 import {
-  createOrganization, getOrganizations, getOrganizationById, updateOrganization, deleteOrganization,
+  createOrganization,
+  getOrganizations,
+  getOrganizationById,
+  updateOrganization,
+  deleteOrganization,
+  getOrganizationStats
 } from "../controllers/organization.controller.js";
+
 import { verifyToken, authorizeRoles } from "../middlewares/auth.middleware.js";
 import { ROLES } from "../utils/constants.js";
 
 const router = express.Router();
 
-// 🏢 Create new organization (SuperAdmin only)
+// Stats must be BEFORE :id route
+router.get(
+  "/stats",
+  verifyToken,
+  authorizeRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.SUPER_USER),
+  getOrganizationStats
+);
+
 router.post(
   "/",
   verifyToken,
@@ -16,7 +28,6 @@ router.post(
   createOrganization
 );
 
-// 📋 Get all organizations
 router.get(
   "/",
   verifyToken,
@@ -24,7 +35,6 @@ router.get(
   getOrganizations
 );
 
-// 🔍 Get organization by ID
 router.get(
   "/:id",
   verifyToken,
@@ -32,7 +42,6 @@ router.get(
   getOrganizationById
 );
 
-// ✏️ Update organization
 router.put(
   "/:id",
   verifyToken,
@@ -40,7 +49,6 @@ router.put(
   updateOrganization
 );
 
-// 🗑️ Delete organization
 router.delete(
   "/:id",
   verifyToken,

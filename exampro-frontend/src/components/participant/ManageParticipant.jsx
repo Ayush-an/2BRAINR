@@ -1,12 +1,9 @@
 // src/components/participant/ManageParticipant.jsx
 import React, { useState } from 'react';
-
 const ManageParticipant = () => {
-  const [activeTab, setActiveTab] = useState('myParticipants'); // 'myParticipants' or 'allParticipants'
+  const [activeTab, setActiveTab] = useState('myParticipants');
   const [batchFilter, setBatchFilter] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Dummy data for demonstration, matching the image example
   const participants = [
     {
       id: 1,
@@ -16,25 +13,21 @@ const ManageParticipant = () => {
       password: '123456789',
       approved: true,
       createdAt: '10/10/2025 03:18 PM',
-      batchId: 'Batch-XYZ', // Example batch ID
+      batchId: 'Batch-XYZ',
     },
-    // Add more dummy data if needed
   ];
 
   const handleSearch = () => {
     console.log("Searching participants:", { activeTab, batchFilter, searchQuery });
-    // Logic to filter/search participants
   };
 
   const handleExportToExcel = () => {
     console.log("Exporting participants to Excel...");
-    // Logic to export data
   };
 
   return (
     <div className="min-h-screen p-8 bg-gray-100">
       <h2 className="mb-8 text-3xl font-bold text-center text-gray-800">Manage Participants</h2>
-
       <div className="p-6 mb-6 bg-white rounded-lg shadow-md">
         {/* Tabs and Filters */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -71,8 +64,7 @@ const ManageParticipant = () => {
               >
                 <option value="">All Batches</option>
                 {/* Add batch options here */}
-                <option value="Batch-A">Batch A</option>
-                <option value="Batch-B">Batch B</option>
+                <option value="Batch-A">Batch A</option> <option value="Batch-B">Batch B</option>
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
                 <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -81,21 +73,15 @@ const ManageParticipant = () => {
               </div>
             </div>
 
-            <input
-              type="text"
-              placeholder="Search participants by name, em..."
+            <input type="text" placeholder="Search participants by name, em..."
               className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1 max-w-[250px] min-w-[180px]"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button
-              onClick={handleSearch}
+              value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  />
+            <button onClick={handleSearch}
               className="w-auto px-4 py-2 font-bold text-white transition duration-150 ease-in-out bg-blue-600 rounded hover:bg-blue-700"
             >
               Search
             </button>
-            <button
-              onClick={handleExportToExcel}
+            <button onClick={handleExportToExcel}
               className="w-auto px-4 py-2 font-bold text-white transition duration-150 ease-in-out bg-green-500 rounded hover:bg-green-600"
             >
               Export to Excel
@@ -155,5 +141,4 @@ const ManageParticipant = () => {
     </div>
   );
 };
-
 export default ManageParticipant;

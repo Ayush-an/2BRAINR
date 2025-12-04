@@ -44,6 +44,9 @@ CREATE TABLE organizations (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+ALTER TABLE organizations
+ADD COLUMN status ENUM('Active','Inactive','Pending') DEFAULT 'Active';
+
 -- -------------------------------
 -- GROUPS TABLE
 -- -------------------------------

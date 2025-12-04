@@ -325,9 +325,6 @@ const AdminDashboard = () => {
   );
 };
 
-
-
-
   const renderDashboardContent = () => (
     <div className="grid grid-cols-6 gap-4">
       <div className="grid grid-cols-2 col-span-6 gap-4 md:grid-cols-3 lg:grid-cols-6">

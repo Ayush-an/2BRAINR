@@ -13,7 +13,6 @@ import AdminModel from "./admin.model.js";
 import SuperUserModel from "./superUser.model.js";
 import SuperAdminModel from "./superAdmin.model.js";
 import ParticipantModel from "./participant.model.js";
-import ParticipantGroupModel from "./participantGroup.model.js";
 
 // Initialize models
 const User = UserModel(sequelize, DataTypes);
@@ -26,10 +25,6 @@ const Admin = AdminModel(sequelize, DataTypes);
 const SuperUser = SuperUserModel(sequelize, DataTypes);
 const SuperAdmin = SuperAdminModel;  // ✔ FIXED properly
 const Participant = ParticipantModel(sequelize, DataTypes);
-const ParticipantGroup = ParticipantGroupModel(sequelize, DataTypes);
-
-
-// 🧩 Associations
 
 // Organization ↔ User (covers Admin, SuperUser, etc.)
 Organization.hasMany(User, { foreignKey: "organizationId" });
@@ -44,20 +39,8 @@ Admin.hasMany(SuperUser, { foreignKey: "adminId" });
 SuperUser.belongsTo(Admin, { foreignKey: "adminId" });
 
 // User ↔ Group (Created By)
-User.hasMany(Group, { foreignKey: "createdBy" });
-Group.belongsTo(User, { foreignKey: "createdBy" });
-
-// Groups ↔ Participants (Many-to-Many)
-Group.belongsToMany(Participant, {
-  through: ParticipantGroup,
-  foreignKey: "group_id",
-  otherKey: "participant_id",
-});
-Participant.belongsToMany(Group, {
-  through: ParticipantGroup,
-  foreignKey: "participant_id",
-  otherKey: "group_id",
-});
+User.hasMany(Group, { foreignKey: "created_by" });
+Group.belongsTo(User, { foreignKey: "created_by" });
 
 // Group ↔ Exam
 Group.hasMany(Exam, { foreignKey: "groupId" });
@@ -77,16 +60,5 @@ Activity.belongsTo(User, { foreignKey: "userId" });
 
 // ✅ Export all models
 export {
-  sequelize,
-  User,
-  Organization,
-  Group,
-  Exam,
-  Question,
-  Activity,
-  Admin,
-  SuperUser,
-  SuperAdmin,
-  Participant,
-  ParticipantGroup,
+  sequelize, User, Organization, Group, Exam, Question, Activity, Admin, SuperUser, SuperAdmin, Participant,
 };

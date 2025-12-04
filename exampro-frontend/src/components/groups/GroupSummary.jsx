@@ -1,4 +1,4 @@
-//
+//src/components/groups/GroupSummary.jsx
 import React, { useState, useEffect } from 'react';
 import { fetchUploadedBatches } from '../../utils/api';
 

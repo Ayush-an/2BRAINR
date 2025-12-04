@@ -1,5 +1,5 @@
 // src/controllers/organization.controller.js
-import { Organization } from "../models/index.js";
+import { Organization, Admin, SuperUser, User  } from "../models/index.js";
 
 /**
  * 🧩 Create Organization
@@ -78,3 +78,47 @@ export const deleteOrganization = async (req, res, next) => {
     next(err);
   }
 };
+
+
+export const getOrganizationStats = async (req, res) => {
+  console.log("🔥 /stats route HIT");
+  try {
+    // Fetch all organizations
+    const orgs = await Organization.findAll({
+      attributes: ["id", "name", "status"],
+      raw: true,
+    });
+
+    // Fetch all admins, superusers, and participants
+    const admins = await Admin.findAll({ raw: true });
+    const superUsers = await SuperUser.findAll({ raw: true });
+    const participants = await User.findAll({
+      where: { role: "PARTICIPANT" },
+      raw: true,
+    });
+
+    // Map organization stats
+    const result = orgs.map((org) => {
+      const orgAdmins = admins.filter((a) => a.organizationId === org.id).length;
+      const orgSuperUsers = superUsers.filter((s) => s.organizationId === org.id).length;
+      const orgParticipants = participants.filter((p) => p.organization_id === org.id).length;
+
+      return {
+        id: org.id,
+        name: org.name,
+        status: org.status || "Active", // fallback in case status missing
+        adminCount: orgAdmins,
+        superUserCount: orgSuperUsers,
+        participantCount: orgParticipants,
+        totalUsers: orgAdmins + orgSuperUsers + orgParticipants,
+      };
+    });
+
+    return res.json({ organizations: result });
+  } catch (err) {
+    console.error("Error fetching organization stats:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+  

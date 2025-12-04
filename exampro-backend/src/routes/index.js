@@ -1,5 +1,4 @@
 // src/routes/index.js
-
 import fs from "fs";
 import path from "path";
 import { Sequelize, DataTypes } from "sequelize";
@@ -24,7 +23,6 @@ const db = { sequelize, Sequelize, DataTypes };
 import userModel from "../models/user.model.js";
 import organizationModel from "../models/organization.model.js";
 import groupModel from "../models/group.model";
-import participantGroupModel from "../models/participantGroup.model.js";
 import examModel from "../models/exam.model.js";
 import questionModel from "../models/question.model.js";
 import examQuestionModel from "../models/examQuestion.model.js";
@@ -41,7 +39,6 @@ import participantModel from "../models/participant.model.js";
 db.User = userModel(sequelize, DataTypes);
 db.Organization = organizationModel(sequelize, DataTypes);
 db.Group = groupModel(sequelize, DataTypes);
-db.ParticipantGroup = participantGroupModel(sequelize, DataTypes);
 db.Exam = examModel(sequelize, DataTypes);
 db.Question = questionModel(sequelize, DataTypes);
 db.ExamQuestion = examQuestionModel(sequelize, DataTypes);

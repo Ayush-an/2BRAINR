@@ -13,12 +13,19 @@ export const verifyToken = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+
+    // Add organizationId for Admins and SuperUsers
+    req.user = {
+      id: decoded.id,
+      role: decoded.role,
+      organizationId: decoded.organizationId || null,
+    };
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
+
 
 /**
  * Authorize Roles

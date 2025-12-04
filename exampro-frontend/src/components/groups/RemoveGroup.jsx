@@ -5,12 +5,6 @@ const RemoveGroup = () => {
   const [removedGroups, setRemovedGroups] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [searchName, setSearchName] = useState('');
-  const [adminFilter, setAdminFilter] = useState('');
-  const [dateRange, setDateRange] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(0);
-
   useEffect(() => {
     const loadRemovedGroups = async () => {
       try {
@@ -24,20 +18,47 @@ const RemoveGroup = () => {
     };
     loadRemovedGroups();
   }, []);
-
-  const totalPages = Math.ceil(removedGroups.length / rowsPerPage);
-  const currentGroups = removedGroups.slice(
-    currentPage * rowsPerPage,
-    (currentPage + 1) * rowsPerPage
-  );
-
   if (loading) return <div className="p-6 text-center">Loading removed groups...</div>;
 
   return (
-    <div className="min-h-screen p-8 bg-gray-100">
-      {/* ...rest of your JSX (filters, table, pagination) */}
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h2 className="mb-6 text-2xl font-semibold text-center">Removed Groups</h2>
+
+      <table className="w-full bg-white rounded-lg shadow-md">
+        <thead>
+          <tr className="bg-orange-200 border-b">
+            <th className="p-3 text-left">Name</th>
+            <th className="p-3 text-left">Description</th>
+            <th className="p-3 text-left">Start Date</th>
+            <th className="p-3 text-left">End Date</th>
+            <th className="p-3 text-left">Created By</th>
+            <th className="p-3 text-left">Deleted By</th>
+            <th className="p-3 text-left">Deleted At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {removedGroups.length === 0 ? (
+            <tr>
+              <td colSpan="7" className="p-4 italic text-center text-gray-500">
+                No removed groups found.
+              </td>
+            </tr>
+          ) : (
+            removedGroups.map((g) => (
+              <tr key={g.id} className="border-b">
+                <td className="p-3">{g.name}</td>
+                <td className="p-3">{g.description}</td>
+                <td className="p-3">{g.start}</td>
+                <td className="p-3">{g.end}</td>
+                <td className="p-3">{g.createdBy}</td>
+                <td className="p-3">{g.deletedBy}</td>
+                <td className="p-3">{g.deletedAt}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
-
 export default RemoveGroup;

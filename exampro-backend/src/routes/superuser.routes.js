@@ -34,4 +34,6 @@ router.get(
   authorizeRoles("SuperUser"),
   getAllParticipants
 );
+
+
 export default router;
